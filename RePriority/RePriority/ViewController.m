@@ -22,6 +22,7 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
 
 @end
 
+/** 本工具还有缺陷，可能一个style有两个drawpriority*/
 @implementation ViewController
 
 /** 指定了setter和getter，必须指定@synthesize*/
@@ -197,13 +198,16 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
         NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
 #endif
     }
-    NSString *sql = [NSString stringWithFormat:@"update style set style=%@ WHERE name=%@", style, styleName];
+    NSString *sql = [NSString stringWithFormat:@"update styles set style='%@' WHERE name='%@'", style, styleName];
     if (![db executeUpdate:sql]) {
         NSLog(@"update fail");
     }
     [db close];
 }
 
-
+- (void)copy:(id)sender;
+{
+    NSBeep();
+}
 
 @end
