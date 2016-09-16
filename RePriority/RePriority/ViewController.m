@@ -157,6 +157,8 @@ static NSString * const keyWords = @"\"drawpriority\": ";
                     self.infoLabel.stringValue = path;
                     NSMutableArray *arrayTemp = [self fetchPriorityWithPath:path];
                     self.myDataSourceArray = arrayTemp;
+                    self.batchBtn.enabled = YES;
+                    self.drawPriorityOffsetTextField.enabled = YES;
                 }
             } else {
                 NSLog(@"error");
