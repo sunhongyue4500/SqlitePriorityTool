@@ -11,5 +11,8 @@
 @interface ViewController : NSViewController
 
 
+- (NSString *)detailText;
+
+
 @end
 

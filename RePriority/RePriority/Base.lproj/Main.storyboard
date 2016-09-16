@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -765,7 +765,6 @@
                                             </tableColumns>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="7Hk-81-Ccq">
                                     <rect key="frame" x="1" y="503" width="678" height="16"/>
@@ -781,7 +780,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bGw-EI-wod">
-                                <rect key="frame" x="480" y="9" width="50" height="31"/>
+                                <rect key="frame" x="430" y="9" width="50" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="BsQ-bg-HEI"/>
                                     <constraint firstAttribute="height" constant="30" id="Nwa-W0-bXO"/>
@@ -794,18 +793,8 @@
                                     <action selector="chooseSourceBtnAction:" target="3XZ-25-uZY" id="g8a-ZP-JvI"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s5U-hW-jr6">
-                                <rect key="frame" x="580" y="9" width="50" height="31"/>
-                                <buttonCell key="cell" type="roundRect" title="保存" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5iC-Db-coS">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="12" name=".PingFangSC-Regular"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="saveBtnAction:" target="3XZ-25-uZY" id="gZy-GD-ON7"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MJM-yX-JWd">
-                                <rect key="frame" x="8" y="15" width="464" height="20"/>
+                                <rect key="frame" x="8" y="15" width="414" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="UHq-eo-ozM"/>
                                 </constraints>
@@ -815,25 +804,52 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zhD-qz-0wf">
+                                <rect key="frame" x="619" y="9" width="50" height="31"/>
+                                <buttonCell key="cell" type="roundRect" title="批量" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IoZ-dl-KFd">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="12" name=".PingFangSC-Regular"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="batchBtnAction:" target="3XZ-25-uZY" id="hGI-GS-OPi"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Gc-YL-w4k">
+                                <rect key="frame" x="515" y="14" width="96" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="96" id="Skb-qg-V7k"/>
+                                    <constraint firstAttribute="height" constant="22" id="TYu-Pt-xxE"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ZLT-kH-EeX">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="PiI-ah-H0f"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="xgy-lb-hpC" firstAttribute="top" secondItem="aiQ-gx-9bI" secondAttribute="top" id="68B-mD-ypc"/>
                             <constraint firstItem="xgy-lb-hpC" firstAttribute="leading" secondItem="aiQ-gx-9bI" secondAttribute="leading" id="8ZO-Sl-y6O"/>
-                            <constraint firstItem="s5U-hW-jr6" firstAttribute="height" secondItem="bGw-EI-wod" secondAttribute="height" id="D1V-eJ-jYf"/>
-                            <constraint firstItem="s5U-hW-jr6" firstAttribute="centerY" secondItem="bGw-EI-wod" secondAttribute="centerY" id="DWs-6F-QWR"/>
                             <constraint firstAttribute="bottom" secondItem="bGw-EI-wod" secondAttribute="bottom" constant="10" id="Ex7-9A-o0H"/>
-                            <constraint firstAttribute="trailing" secondItem="s5U-hW-jr6" secondAttribute="trailing" constant="50" id="IA4-Xa-kbT"/>
+                            <constraint firstItem="zhD-qz-0wf" firstAttribute="leading" secondItem="6Gc-YL-w4k" secondAttribute="trailing" constant="8" id="HyJ-zb-2Hd"/>
                             <constraint firstAttribute="trailing" secondItem="xgy-lb-hpC" secondAttribute="trailing" id="KAN-FA-8OS"/>
                             <constraint firstItem="bGw-EI-wod" firstAttribute="centerY" secondItem="MJM-yX-JWd" secondAttribute="centerY" id="Kfo-uJ-TCG"/>
                             <constraint firstItem="MJM-yX-JWd" firstAttribute="leading" secondItem="aiQ-gx-9bI" secondAttribute="leading" constant="10" id="aJT-2m-baY"/>
-                            <constraint firstItem="s5U-hW-jr6" firstAttribute="width" secondItem="bGw-EI-wod" secondAttribute="width" id="jF2-GL-ybt"/>
+                            <constraint firstItem="zhD-qz-0wf" firstAttribute="height" secondItem="bGw-EI-wod" secondAttribute="height" id="btX-jf-nZp"/>
+                            <constraint firstItem="zhD-qz-0wf" firstAttribute="width" secondItem="bGw-EI-wod" secondAttribute="width" id="eMZ-8h-SIe"/>
+                            <constraint firstItem="zhD-qz-0wf" firstAttribute="centerY" secondItem="bGw-EI-wod" secondAttribute="centerY" id="jJm-Ru-uRm"/>
                             <constraint firstItem="bGw-EI-wod" firstAttribute="leading" secondItem="MJM-yX-JWd" secondAttribute="trailing" constant="10" id="jR1-bx-cCI"/>
+                            <constraint firstItem="zhD-qz-0wf" firstAttribute="centerY" secondItem="6Gc-YL-w4k" secondAttribute="centerY" id="knL-7m-cdb"/>
+                            <constraint firstAttribute="trailing" secondItem="zhD-qz-0wf" secondAttribute="trailing" constant="11" id="nvN-nV-N9z"/>
                             <constraint firstAttribute="bottom" secondItem="xgy-lb-hpC" secondAttribute="bottom" constant="50" id="pLy-b7-3Ky"/>
-                            <constraint firstAttribute="trailing" secondItem="bGw-EI-wod" secondAttribute="trailing" constant="150" id="xwe-0r-2pp"/>
+                            <constraint firstAttribute="trailing" secondItem="bGw-EI-wod" secondAttribute="trailing" constant="200" id="xwe-0r-2pp"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="batchBtn" destination="zhD-qz-0wf" id="pMP-CL-QAq"/>
                         <outlet property="cusTableView" destination="y8h-qy-DDt" id="vFS-TS-1u0"/>
+                        <outlet property="drawPriorityOffsetTextField" destination="6Gc-YL-w4k" id="9E5-rs-Sd2"/>
                         <outlet property="infoLabel" destination="MJM-yX-JWd" id="MAM-zw-Kre"/>
                     </connections>
                 </viewController>

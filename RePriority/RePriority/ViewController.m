@@ -11,12 +11,18 @@
 #import "FMDB.h"
 
 static NSString * const regularExp = @"\"drawpriority\": \\d+";
+static NSString * const keyWords = @"\"drawpriority\": ";
 @interface ViewController ()  <NSTabViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic, strong) NSMutableArray *myDataSourceArray;
 
 @property (nonatomic, weak) IBOutlet NSTableView *cusTableView;
 @property (weak) IBOutlet NSTextField *infoLabel;
+@property (weak) IBOutlet NSTextField *drawPriorityOffsetTextField;
+@property (weak) IBOutlet NSButton *batchBtn;
+
+/** 批量操作时的其实偏移*/
+@property (nonatomic, assign) int drawPriorityOffset;
 
 @property (nonatomic, strong) NSURL *dbFilePath;
 
@@ -29,8 +35,12 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
 @synthesize myDataSourceArray = _myDataSourceArray;
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    if (!self.dbFilePath) {
+        self.batchBtn.enabled = NO;
+        self.drawPriorityOffsetTextField.enabled = NO;
+    }
     
+    [super viewDidLoad];
     [self.infoLabel setSelectable:YES];
     self.cusTableView.dataSource = self;
     self.cusTableView.delegate = self;
@@ -56,6 +66,10 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
     [self.cusTableView reloadData];
 }
 
+- (void)setDrawPriorityOffset:(int)drawPriorityOffset {
+    _drawPriorityOffset = drawPriorityOffset;
+}
+
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
 
@@ -79,7 +93,8 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
         text = style.style;
         cellIdentifier = @"StyleCellID";
         
-        NSString *tempStr = [self fetchDrawPriority:text];
+        BOOL flag = NO;
+        NSString *tempStr = [self fetchDrawPriority:text mutilFlag:&flag];
         if (tempStr) {
             text = tempStr;
         } else {
@@ -88,6 +103,10 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
         cell = [tableView makeViewWithIdentifier:cellIdentifier owner:nil];
         [cell.textField setEditable:YES];
         cell.textField.delegate = self;
+        if (flag){
+            cell.wantsLayer = YES;  // make the cell layer-backed
+            cell.layer.backgroundColor = [[NSColor redColor] CGColor];
+        }
     }
     
     
@@ -104,13 +123,24 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
 }
 
 /** 从text获取要显示的信息*/
-- (NSString *)fetchDrawPriority:(NSString *)text{
+- (NSString *)fetchDrawPriority:(NSString *)text mutilFlag:(BOOL *)flag{
+    //是否有多个pri
     NSMutableString *string = [NSMutableString stringWithString:text];
     NSRange range = [string rangeOfString:regularExp options:NSRegularExpressionSearch];
     NSString *str;
-    if (range.length > 0)
+    if (range.length > 0) {
         str = [string substringWithRange:range];
+        NSString *tempS = [text substringFromIndex:range.location + range.length];
+        NSRange rangTemp = [tempS rangeOfString:regularExp options:NSRegularExpressionSearch];
+        if (rangTemp.length > 0) {
+            *flag = YES;
+        }
+    }
     return str;
+}
+
+- (NSString *)construcPriorityStr:(int)drawPriortiy {
+    return [NSString stringWithFormat:@"%@%d", keyWords, drawPriortiy];
 }
 
 /** 选择btn响应事件*/
@@ -208,6 +238,33 @@ static NSString * const regularExp = @"\"drawpriority\": \\d+";
 - (void)copy:(id)sender;
 {
     NSBeep();
+}
+
+- (NSString *)detailText {
+    return @"fsdf";
+}
+
+/** 批量更新数据库*/
+- (IBAction)batchBtnAction:(NSButton *)sender {
+    int priorityOffset = [self.drawPriorityOffsetTextField intValue];
+    self.drawPriorityOffset = priorityOffset;
+    // 直接写入数据库
+    for (int i=0; i<self.myDataSourceArray.count; i++) {
+        CusStyle *styleTemp = self.myDataSourceArray[i];
+        NSRange drawPriorityRange = [styleTemp.style rangeOfString:regularExp options:NSRegularExpressionSearch];
+        NSRange leftStrRange = NSMakeRange(0, drawPriorityRange.location);
+        NSRange rightStrRange = NSMakeRange(drawPriorityRange.location + drawPriorityRange.length, styleTemp.style.length - (drawPriorityRange.location + drawPriorityRange.length));
+        NSString *newStr = [NSString stringWithFormat:@"%@%@%@", [styleTemp.style substringWithRange:leftStrRange], [self construcPriorityStr:_drawPriorityOffset++], [styleTemp.style substringWithRange:rightStrRange]];
+        //写入数据库
+        [self updatedb:self.dbFilePath styleName:styleTemp.styleName style:newStr];
+
+    }
+    // 更新视图
+    if (self.dbFilePath) {
+        self.myDataSourceArray = [self fetchPriorityWithPath:[self.dbFilePath absoluteString]];
+        self.batchBtn.enabled = YES;
+        self.drawPriorityOffsetTextField.enabled = YES;
+    }
 }
 
 @end
